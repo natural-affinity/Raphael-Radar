@@ -6,7 +6,7 @@ Prerequisites
 -------------
 * JQuery 1.4.2+
 * Raphael 1.3.1+
-* NodeJS 0.10.x with GruntJS (optional)
+* NodeJS 0.10.x (optional)
 
 Usage and documentation
 -----------------------
@@ -16,7 +16,17 @@ provided for sample usage.
 
 ### Setup
 
-You can automate your build-deploy-launch workflow by invoking 'grunt':
+Install the Grunt JS CLI to help automate your build-deploy-test workflow:
+```bash
+$ npm install -g grunt-cli
+```
+
+Install all remaining Node JS dependencies via 'npm': 
+```bash
+$ npm install
+```
+
+To build and deploy the plugin simply invoke 'grunt':
 ```bash
 $ grunt
 ```
@@ -25,6 +35,17 @@ Your production-ready artifacts will be created in the 'public' directory:
 ```bash
 $ cd public
 ```
+
+To build, deploy, and launch a webserver with livereload for testing:
+```bash
+$ grunt tdd
+```
+
+The above will serve deployed files from the 'public' directory and will launch 
+a [webserver](http://localhost:9292) for local development.  Any file changes 
+will re-trigger the build and deploy process. A refresh of the browser window 
+may be required to view the new changes.
+
 
 ### Coming Soon
 
