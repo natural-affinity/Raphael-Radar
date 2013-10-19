@@ -53,20 +53,38 @@ module.exports = function(grunt) {
             search: 'js/lib/|js/',
             replace: 'assets/js/',
             flags: 'g'
-          }
-        ]
+        }]
+      },
+    },
+    connect: {
+      server: {
+        options: {
+          open: true,
+          port: 9292,
+          base: 'public'
+        }
       }
+    },
+    watch: {
+      options: {
+        livereload: true
+      },
+      files: ['src/**/*'],
+      tasks: ['default']
     }
   });
 
-  //load lib tasks  
+  //load lib tasks
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-regex-replace');
 
   //register tasks and default task
   grunt.registerTask('default', ['clean', 'jshint', 'uglify', 'copy', 'regex-replace']);
+  grunt.registerTask('tdd', ['default', 'connect', 'watch']);
 };
