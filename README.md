@@ -5,8 +5,8 @@ This plugin is a radar or spider chart for the Raphael JS SVG graphics library.
 Prerequisites
 -------------
 * JQuery 1.4.2+
-* Raphael 1.3.1+
-* NodeJS 0.10.x (optional)
+* Raphael JS 1.3.1+
+* Node JS 0.10.x (optional)
 
 Usage and documentation
 -----------------------
