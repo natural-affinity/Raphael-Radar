@@ -1,5 +1,4 @@
-Raphael.fn.polygon = function (points)
-{
+Raphael.fn.polygon = function (points) {
     "use strict";
     var path = "M100 100";
     var i, len = points.length;
@@ -13,24 +12,25 @@ Raphael.fn.polygon = function (points)
     }
 
     return this.path(path);
-};
+}; //draw polygon container
 
-function lined_on( origin, base, bias)
-{
-  return origin + (base - origin) * bias;
-};
+function lined_on(origin, base, bias) {
+    "use strict";
+    return origin + (base - origin) * bias;
+} //fetch position along radar line
 
-function path_string( cx, cy, points, score)
-{
-  vertex = [];
-  for( var i = 0; i < points.length; i++){
-    var s = "";
-    var x = lined_on( cx, points[i][0], score[i]);
-    var y = lined_on( cy, points[i][1], score[i]);
-    vertex.push( "" + x + " " + y);
-  }
-  return "M " + vertex.join("L ") + "L " + vertex[0];
-};
+function path_string(cx, cy, points, score) {
+    "use strict";
+    var i, x, y, len = points.length, vertex = [];
+
+    for (i = 0; i < len; i += 1) {
+        x = lined_on(cx, points[i][0], score[i]);
+        y = lined_on(cy, points[i][1], score[i]);
+        vertex.push(x + " " + y);
+    }
+
+    return "M" + vertex.join("L") + "L" + vertex[0];
+} //fetch SVG path string for a series
 
 function break_per( n, s)
 {
