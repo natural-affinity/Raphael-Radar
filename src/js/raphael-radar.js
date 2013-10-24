@@ -1,25 +1,18 @@
-Raphael.fn.polygon = function (params, points)
+Raphael.fn.polygon = function (points)
 {
-    // Initial parameter makes an effect... mysterious...
-    var path_string = "M 100 100";
-    for( var i = 0; i < points.length; i++){
-      var x = points[i][0];
-      var y = points[i][1];
-      var s;
-      s = (i == 0) ? "M " + x + " " + y + " " : "L " + x + " " + y + " ";
-      if( i == points.length - 1) s += "L " + points[0][0] + " " + points[0][1] + " ";
-      path_string += s;
-    }
-    var poly = this.path(path_string);
-    poly.attr(params);
+    "use strict";
+    var path = "M100 100";
+    var i, len = points.length;
 
-    /*
-    for( var pos in points){
-      console.log(points[pos]);
-    }
-    */
+    for (i = 0; i < len; i += 1) {
+      path += ((i === 0) ? "M" : "L") + points[i][0] + " " + points[i][1];
 
-    return poly;
+      if (i === len - 1) {
+        path += "L" + points[0][0] + " " + points[0][1];
+      }
+    }
+
+    return this.path(path);
 };
 
 function lined_on( origin, base, bias)
@@ -86,7 +79,7 @@ Raphael.fn.radarchart = function (x, y, radius, sides, params, score, labels, id
     st.push(value);
 
     // Draws a frame of the chart and sets styles it
-    var poly = this.polygon(params, points);
+    var poly = this.polygon(points);
     poly.attr("stroke", "#555");
     poly.attr("stroke-width", "3");
     st.push(poly);
