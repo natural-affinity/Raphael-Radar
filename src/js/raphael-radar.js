@@ -32,11 +32,10 @@ function path_string(cx, cy, points, score) {
     return "M" + vertex.join("L") + "L" + vertex[0];
 } //fetch SVG path string for a series
 
-function break_per( n, s)
-{
-  if( s.length <= n) return s;
-  return s.slice(0,n) + "\n" + break_per( n, s.slice(n));
-};
+function break_per(n, s) {
+    "use strict";
+    return (s.length <= n) ? s : (s.slice(0, n) + "\n" + break_per(n, s.slice(n)));
+} //line break label text every 'n' characters
 
 Raphael.fn.radarchart = function (x, y, radius, sides, params, score, labels, ids, max)
 {
