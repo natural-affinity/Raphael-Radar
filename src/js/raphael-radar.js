@@ -1,21 +1,3 @@
-function lined_on(origin, base, bias) {
-    "use strict";
-    return origin + (base - origin) * bias;
-} //fetch position along radar line
-
-function path_string(cx, cy, points, score) {
-    "use strict";
-    var x, y, vertex = [];
-
-    for (var i = 0, len = points.length; i < len; i += 1) {
-        x = lined_on(cx, points[i][0], score[i]);
-        y = lined_on(cy, points[i][1], score[i]);
-        vertex.push(x + " " + y);
-    }
-
-    return "M" + vertex.join("L") + "L" + vertex[0];
-} //fetch SVG path string for a series
-
 function break_per(n, s) {
     "use strict";
     return (s.length <= n) ? s : (s.slice(0, n) + "\n" + break_per(n, s.slice(n)));
@@ -36,7 +18,23 @@ Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
         }
 
         return path;
-    } //draw polygon container
+    }//get polygon container path
+
+    function lined_on(origin, base, bias) {
+        return origin + (base - origin) * bias;
+    }//get position along radar line
+
+    function path_string(cx, cy, points, score) {
+        var x, y, vertex = [];
+
+        for (var i = 0, len = points.length; i < len; i += 1) {
+            x = lined_on(cx, points[i][0], score[i]);
+            y = lined_on(cy, points[i][1], score[i]);
+            vertex.push(x + " " + y);
+        }
+
+        return "M" + vertex.join("L") + "L" + vertex[0];
+    }//get SVG path string for a series
 
     var st = this.set();
     var cx = w / 2;
@@ -58,12 +56,12 @@ Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
 
     var plen = points.length;
 
-    // Draws measures of the chart
+
     for (var i = 0; i < plen; i += 1) {
         x = points[i][0];
         y = points[i][1];
         st.push(this.path("M" + cx + " " + cy + "L" + x + " " + y).attr("stroke", "#777"));
-    }
+    }//draw inner axes
 
     for (i = 0; i < plen; i += 1) {
         x = lined_on(cx, points[i][0], 1.3);
