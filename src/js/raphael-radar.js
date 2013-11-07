@@ -36,25 +36,24 @@ function break_per(n, s) {
     return (s.length <= n) ? s : (s.slice(0, n) + "\n" + break_per(n, s.slice(n)));
 } //line break label text every 'n' characters
 
-Raphael.fn.radarchart = function (x, y, radius, sides, params, score, labels, ids, max) {
+Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
     "use strict";
 
     var st = this.set();
-    var cx = x;
-    var cy = y;
+    var cx = w / 2;
+    var cy = h / 2;
+    var radius = (w < h ? w : h) / Math.PI;
     var angle = 360;
+    var sides = score.length;
     var edgeLength = 2 * radius * Math.sin(Math.PI / sides);
-
-    // Genarates points of the chart frame
-    x += edgeLength / 2;
-    y += radius * Math.cos(Math.PI / sides);
+    var x = cx + edgeLength / 2;
+    var y = cy + radius * Math.cos(Math.PI / sides);
     var points = [[x, y]];
 
     for (var side = 1; side < sides; side += 1) {
         angle -= 360 / sides;
-
-        x = x + edgeLength * Math.cos(Raphael.rad(angle));
-        y = y + edgeLength * Math.sin(Raphael.rad(angle));
+        x += edgeLength * Math.cos(Raphael.rad(angle));
+        y += edgeLength * Math.sin(Raphael.rad(angle));
         points.push([x, y]);
     }
 
@@ -115,16 +114,7 @@ Raphael.fn.radarchart = function (x, y, radius, sides, params, score, labels, id
 };
 
 function radar(id, w, h, score, labels, ids, max) {
-    var center_x = w / 2;
-    var center_y = h / 2;
-    var shorter  = (w < h) ? w : h;
-    var r = shorter / Math.PI;
-    var n = score.length;
-
     var paper = Raphael(id, w, h);
-    var bg    = paper.rect(0, 0, w, h, 0);
-    var chart = paper.radarchart(center_x, center_y, r, n, 0, score, labels, ids, max);
-    chart.rotate(0, center_x, center_y);
-
-    bg.attr({"gradient": "270-#fff-#fff:40-#ddd", "stroke-width": "0"});
+    paper.rect(0, 0, w, h, 0).attr({"gradient": "270-#fff-#fff:40-#ddd", "stroke-width": "0"});
+    paper.radarchart(w, h, score, labels, ids, max);
 }
