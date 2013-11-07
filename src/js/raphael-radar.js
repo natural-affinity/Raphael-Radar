@@ -1,18 +1,3 @@
-Raphael.fn.polygon = function (points) {
-    "use strict";
-    var path = "M100 100";
-
-    for (var i = 0, len = points.length; i < len; i += 1) {
-        path += ((i === 0) ? "M" : "L") + points[i][0] + " " + points[i][1];
-
-        if (i === len - 1) {
-            path += "L" + points[0][0] + " " + points[0][1];
-        }
-    }
-
-    return this.path(path);
-}; //draw polygon container
-
 function lined_on(origin, base, bias) {
     "use strict";
     return origin + (base - origin) * bias;
@@ -38,6 +23,20 @@ function break_per(n, s) {
 
 Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
     "use strict";
+
+    function polygon(points) {
+        var path = "M100 100";
+
+        for (var i = 0, len = points.length; i < len; i += 1) {
+            path += ((i === 0) ? "M" : "L") + points[i][0] + " " + points[i][1];
+
+            if (i === len - 1) {
+                path += "L" + points[0][0] + " " + points[0][1];
+            }
+        }
+
+        return path;
+    } //draw polygon container
 
     var st = this.set();
     var cx = w / 2;
@@ -73,7 +72,7 @@ Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
     }//draw labels
 
     //draw outer polygon frame
-    st.push((this.polygon(points)).attr({"stroke": "#555", "stroke-width": "3"}));
+    st.push(this.path(polygon(points)).attr({"stroke": "#555", "stroke-width": "3"}));
 
     // Regularises scores
     for (i = 0; i < score.length; i += 1) { score[i] /= max; }
