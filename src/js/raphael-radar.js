@@ -1,8 +1,3 @@
-function break_per(n, s) {
-    "use strict";
-    return (s.length <= n) ? s : (s.slice(0, n) + "\n" + break_per(n, s.slice(n)));
-} //line break label text every 'n' characters
-
 Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
     "use strict";
 
@@ -35,6 +30,10 @@ Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
 
         return "M" + vertex.join("L") + "L" + vertex[0];
     }//get SVG path string for a series
+
+    function break_per(n, s) {
+      return (s.length <= n) ? s : (s.slice(0, n) + "\n" + break_per(n, s.slice(n)));
+    }//line break label text every 'n' characters
 
     var st = this.set();
     var cx = w / 2;
