@@ -1,9 +1,8 @@
 Raphael.fn.polygon = function (points) {
     "use strict";
     var path = "M100 100";
-    var i, len = points.length;
 
-    for (i = 0; i < len; i += 1) {
+    for (var i = 0, len = points.length; i < len; i += 1) {
         path += ((i === 0) ? "M" : "L") + points[i][0] + " " + points[i][1];
 
         if (i === len - 1) {
@@ -21,9 +20,9 @@ function lined_on(origin, base, bias) {
 
 function path_string(cx, cy, points, score) {
     "use strict";
-    var i, x, y, len = points.length, vertex = [];
+    var x, y, vertex = [];
 
-    for (i = 0; i < len; i += 1) {
+    for (var i = 0, len = points.length; i < len; i += 1) {
         x = lined_on(cx, points[i][0], score[i]);
         y = lined_on(cy, points[i][1], score[i]);
         vertex.push(x + " " + y);
@@ -38,36 +37,47 @@ function break_per(n, s) {
 } //line break label text every 'n' characters
 
 Raphael.fn.radarchart = function (x, y, radius, sides, params, score, labels, ids, max) {
-    // Saves a point of center
+    "use strict";
+
+    var st = this.set();
     var cx = x;
     var cy = y;
+    var angle = 360;
+    var edgeLength = 2 * radius * Math.sin(Math.PI / sides);
 
     // Genarates points of the chart frame
-    var side, rads, angle = 360;
-    var edgeLength = 2 * radius * Math.sin(Math.PI / sides);
     x += edgeLength / 2;
     y += radius * Math.cos(Math.PI / sides);
     var points = [[x, y]];
-    for (side = 1; side < sides; side += 1) {
+
+    for (var side = 1; side < sides; side += 1) {
         angle -= 360 / sides;
-        rads = angle * (Math.PI / 180);
-        x = x + edgeLength * Math.cos(rads);
-        y = y + edgeLength * Math.sin(rads);
+
+        x = x + edgeLength * Math.cos(Raphael.rad(angle));
+        y = y + edgeLength * Math.sin(Raphael.rad(angle));
         points.push([x, y]);
     }
 
-    //loop vars and set
-    var i, j, st = this.set();
-
-    // Regularises scores
-    for (i = 0; i < score.length; i += 1) { score[i] /= max; }
+    var plen = points.length;
 
     // Draws measures of the chart
-    for (i = 0; i < points.length; i += 1) {
+    for (var i = 0; i < plen; i += 1) {
         x = points[i][0];
         y = points[i][1];
         st.push(this.path("M" + cx + " " + cy + "L" + x + " " + y).attr("stroke", "#777"));
     }
+
+    for (i = 0; i < plen; i += 1) {
+        x = lined_on(cx, points[i][0], 1.3);
+        y = lined_on(cy, points[i][1], 1.3);
+        this.text(x, y, break_per(3, labels[i])).attr({fill: "#555"});
+    }//draw labels
+
+    //draw outer polygon frame
+    st.push((this.polygon(points)).attr({"stroke": "#555", "stroke-width": "3"}));
+
+    // Regularises scores
+    for (i = 0; i < score.length; i += 1) { score[i] /= max; }
 
     // Draws chart
     var value = this.path(path_string(cx, cy, points, score));
@@ -75,49 +85,29 @@ Raphael.fn.radarchart = function (x, y, radius, sides, params, score, labels, id
                 "stroke-width": "2", "stroke": "#a64"});
     st.push(value);
 
-    // Draws a frame of the chart and sets styles it
-    var poly = this.polygon(points);
-    poly.attr({"stroke": "#555", "stroke-width": "3"});
-    st.push(poly);
+    var mouseUp = function () { this.animate({fill: "#888"}, 150); };
+    var mouseOut = function () { this.animate({r: 3.5}, 150); };
+    var mouseOver = function () { this.animate({r: 5}, 150); };
+    var mouseDown = function () {
+        score[this.axis] = this.score;
+        $('#' + this.related_id).val(this.score * max);
+        value.animate({path: path_string(cx, cy, points, score)}, 200);
+    };
 
-    if (labels) {
-        for (i = 0; i < points.length; i += 1) {
-            x = lined_on(cx, points[i][0], 1.3);
-            y = lined_on(cy, points[i][1], 1.3);
-            this.text(x, y, break_per(3, labels[i])).attr({fill: "#555"});
-        }
-    }
+    for (i = 0; i < plen; i += 1) {
+        for (var j = 1; j < 6; j += 1) {
+            x = lined_on(cx, points[i][0], j * 0.2);
+            y = lined_on(cy, points[i][1], j * 0.2);
 
-    if (ids) {
-        for (i = 0; i < points.length; i += 1) {
-            for (j = 1; j < 6; j += 1) {
-                x = lined_on(cx, points[i][0], j * 0.2);
-                y = lined_on(cy, points[i][1], j * 0.2);
-
-                var cl = this.circle(x, y, 3.5).attr({'fill': '#888','stroke-width': '0'});
-                cl.axis = i;
-                cl.score = j / 5.0;
-                cl.related_id = ids ? ids[i] : null;
-                cl.mousedown(function() {
-                    score[this.axis] = this.score;
-                    $('#' + this.related_id).val(this.score * max);
-                    value.animate({path: path_string(cx, cy, points, score)}, 200);
-                });
-
-                cl.mouseover(function() {
-                    this.animate({r: 5}, 150);
-                });
-
-                cl.mouseout(function() {
-                  this.animate({r: 3.5}, 150);
-                });
-
-                cl.mouseup(function() {
-                  this.animate({fill: "#888"}, 150);
-                });
-
-                st.push(cl);
-            }
+            var cl = this.circle(x, y, 3.5).attr({'fill': '#888','stroke-width': '0'});
+            cl.axis = i;
+            cl.score = j / 5.0;
+            cl.related_id = ids ? ids[i] : null;
+            cl.mouseup(mouseUp);
+            cl.mouseout(mouseOut);
+            cl.mouseover(mouseOver);
+            cl.mousedown(mouseDown);
+            st.push(cl);
         }
     }
 
