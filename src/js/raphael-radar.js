@@ -108,9 +108,3 @@ Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
 
     return st;
 };
-
-function radar(id, w, h, score, labels, ids, max) {
-    var paper = Raphael(id, w, h);
-    paper.rect(0, 0, w, h, 0).attr({"gradient": "270-#fff-#fff:40-#ddd", "stroke-width": "0"});
-    paper.radarchart(w, h, score, labels, ids, max);
-}

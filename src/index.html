@@ -20,10 +20,16 @@
       </table>
     </form>
     <script type="text/javascript">
-      scores = [30, 30, 30, 30, 30];
-      labels = ["うんのよさ", "たいりょく", "ちから", "かしこさ", "すばやさ"];
-      ids    = ["l", "s", "p", "c", "q"];
-      radar("chart", 250, 250, scores, labels, ids, 50);
+      var scores = [30, 30, 30, 30, 30];
+      var labels = ["うんのよさ", "たいりょく", "ちから", "かしこさ", "すばやさ"];
+      var ids    = ["l", "s", "p", "c", "q"];
+      var width = 250;
+      var height = 250;
+
+      var paper = Raphael("chart", width, height);
+      paper.rect(0, 0, width, height, 0).attr({"gradient": "270-#fff-#fff:40-#ddd", "stroke-width": "0"});
+      paper.radarchart(width, height, scores, labels, ids, 50);
+
     </script>
   </body>
 </html>
