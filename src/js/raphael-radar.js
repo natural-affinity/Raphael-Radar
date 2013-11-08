@@ -1,4 +1,4 @@
-Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
+Raphael.fn.radarchart = function (data, size, ids) {
     "use strict";
 
     function polygon(points) {
@@ -36,8 +36,13 @@ Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
     });//line break label text every 'n' characters
 
     var st = this.set();
+    var w = size.width;
+    var h = size.height;
     var cx = w / 2;
     var cy = h / 2;
+    var max = data.max;
+    var labels = data.labels;
+    var score = data.scores;
     var radius = (w < h ? w : h) / Math.PI;
     var angle = 360;
     var sides = score.length;
