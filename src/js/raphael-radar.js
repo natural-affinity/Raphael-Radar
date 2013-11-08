@@ -1,4 +1,4 @@
-Raphael.fn.radarchart = function (data, size, ids) {
+Raphael.fn.radarchart = function (data, size, style, ids) {
     "use strict";
 
     function polygon(points) {
@@ -43,6 +43,11 @@ Raphael.fn.radarchart = function (data, size, ids) {
     var max = data.max;
     var labels = data.labels;
     var score = data.scores;
+    var pstyle = style.polygon;
+    var lstyle = style.label;
+    var cstyle = style.circle;
+    var sstyle = style.scores;
+    var astyle = style.axis;
     var radius = (w < h ? w : h) / Math.PI;
     var angle = 360;
     var sides = score.length;
@@ -59,33 +64,33 @@ Raphael.fn.radarchart = function (data, size, ids) {
     }
 
     var plen = points.length;
-
+    var axis = null;
 
     for (var i = 0; i < plen; i += 1) {
         x = points[i][0];
         y = points[i][1];
-        st.push(this.path("M" + cx + " " + cy + "L" + x + " " + y).attr("stroke", "#777"));
+        axis = this.path("M" + cx + " " + cy + "L" + x + " " + y);
+        st.push(axis.attr.apply(axis, astyle));
     }//draw inner axes
 
     for (i = 0; i < plen; i += 1) {
         x = lined_on(cx, points[i][0], 1.3);
         y = lined_on(cy, points[i][1], 1.3);
-        this.text(x, y, break_per(3, labels[i])).attr({fill: "#555"});
+        this.text(x, y, break_per(3, labels[i])).attr(lstyle);
     }//draw labels
 
     //draw outer polygon frame
-    st.push(this.path(polygon(points)).attr({"stroke": "#555", "stroke-width": "3"}));
+    st.push(this.path(polygon(points)).attr(pstyle));
 
     // Regularises scores
     for (i = 0; i < score.length; i += 1) { score[i] /= max; }
 
     // Draws chart
     var ipoly = this.path(path_string(cx, cy, points, score));
-    ipoly.attr({"fill": "#f90", "fill-opacity": "0.8",
-                "stroke-width": "2", "stroke": "#a64"});
+    ipoly.attr(sstyle);
     st.push(ipoly);
 
-    var mouseUp = function () { this.animate({fill: "#888"}, 150); };
+    var mouseUp = function () { this.animate(cstyle, 150); };
     var mouseOut = function () { this.animate({r: 3.5}, 150); };
     var mouseOver = function () { this.animate({r: 5}, 150); };
     var mouseDown = function () {
@@ -99,7 +104,7 @@ Raphael.fn.radarchart = function (data, size, ids) {
             x = lined_on(cx, points[i][0], j * 0.2);
             y = lined_on(cy, points[i][1], j * 0.2);
 
-            var cl = this.circle(x, y, 3.5).attr({'fill': '#888','stroke-width': '0'});
+            var cl = this.circle(x, y, 3.5).attr(cstyle);
             cl.axis = i;
             cl.score = j / 5.0;
             cl.related_id = ids ? ids[i] : null;
