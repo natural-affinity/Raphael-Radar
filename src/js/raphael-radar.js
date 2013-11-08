@@ -75,10 +75,10 @@ Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
     for (i = 0; i < score.length; i += 1) { score[i] /= max; }
 
     // Draws chart
-    var value = this.path(path_string(cx, cy, points, score));
-    value.attr({"fill": "#f90", "fill-opacity": "0.8",
+    var ipoly = this.path(path_string(cx, cy, points, score));
+    ipoly.attr({"fill": "#f90", "fill-opacity": "0.8",
                 "stroke-width": "2", "stroke": "#a64"});
-    st.push(value);
+    st.push(ipoly);
 
     var mouseUp = function () { this.animate({fill: "#888"}, 150); };
     var mouseOut = function () { this.animate({r: 3.5}, 150); };
@@ -86,7 +86,7 @@ Raphael.fn.radarchart = function (w, h, score, labels, ids, max) {
     var mouseDown = function () {
         score[this.axis] = this.score;
         $('#' + this.related_id).val(this.score * max);
-        value.animate({path: path_string(cx, cy, points, score)}, 200);
+        ipoly.animate({path: path_string(cx, cy, points, score)}, 200);
     };
 
     for (i = 0; i < plen; i += 1) {

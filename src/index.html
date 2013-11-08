@@ -7,9 +7,7 @@
   <body>
     <h1>Raphael Radar example</h1>
     <p>Raphael Radarは、Raphael.jsを使って操作可能なレーダーチャートをSVGで描画するライブラリです。</p>
-    <p>Source code is available on <a href="http://github.com/tnzk/Raphael-Radar">Github</a>, Developed by <a href="http://twitter.com/tnzk">@tnzk</a></p>
-    <div id="chart" style="float:left;">
-    </div>
+    <div id="chart" style="float:left;"></div>
     <form>
       <table>
         <tr><td>ちから    </td><td><input id="p" name="test1" type="text" value="30" /></td></tr>
@@ -29,7 +27,6 @@
       var paper = Raphael("chart", width, height);
       paper.rect(0, 0, width, height, 0).attr({"gradient": "270-#fff-#fff:40-#ddd", "stroke-width": "0"});
       paper.radarchart(width, height, scores, labels, ids, 50);
-
     </script>
   </body>
 </html>
