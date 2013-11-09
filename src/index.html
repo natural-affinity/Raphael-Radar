@@ -5,18 +5,11 @@
     <script src="js/raphael-radar.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body>
-    <h1>Raphael Radar example</h1>
+    <h1>Raphael Radar Example(s)</h1>
     <p>Raphael Radarは、Raphael.jsを使って操作可能なレーダーチャートをSVGで描画するライブラリです。</p>
-    <div id="chart" style="float:left;"></div>
-    <form>
-      <table>
-        <tr><td>ちから    </td><td><input id="p" name="test1" type="text" value="30" /></td></tr>
-        <tr><td>たいりょく</td><td><input id="s" name="test2" type="text" value="30" /></td></tr>
-        <tr><td>すばやさ  </td><td><input id="q" name="test3" type="text" value="30" /></td></tr>
-        <tr><td>かしこさ  </td><td><input id="c" name="test4" type="text" value="30" /></td></tr>
-        <tr><td>うんのよさ</td><td><input id="l" name="test5" type="text" value="30" /></td></tr>
-      </table>
-    </form>
+
+    <h5>Example 1: Editable single series chart</h5>
+    <div id="chart"></div>
     <script type="text/javascript">
       var radar = {
         data: {
@@ -36,13 +29,13 @@
           circle: {'fill': '#888','stroke-width': '0'},
           axis: ["stroke", "#777"],
           label: {'fill': "#555"}
-        }
+        },
+        chart: null
       };
 
-      var ids = ["l", "s", "p", "c", "q"];
-      var paper = Raphael("chart", radar.size.width, radar.size.height);
-      paper.rect(0, 0, radar.size.width, radar.size.height, 0).attr(radar.style.bg);
-      paper.radarchart(radar.data, radar.size, radar.style, ids);
+      radar.chart = Raphael("chart", radar.size.width, radar.size.height);
+      radar.chart.rect(0, 0, radar.size.width, radar.size.height, 0).attr(radar.style.bg);
+      radar.chart.radarchart(radar.data, radar.size, radar.style);
     </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-Raphael.fn.radarchart = function (data, size, style, ids) {
+Raphael.fn.radarchart = function (data, size, style) {
     "use strict";
 
     function polygon(points) {
@@ -29,7 +29,7 @@ Raphael.fn.radarchart = function (data, size, style, ids) {
         }
 
         return "M" + vertex.join("L") + "L" + vertex[0];
-    }//get SVG path string for a series
+    }//get svg path string for a series
 
     var break_per = (function bp(n,s) {
         return (s.length <= n) ? s : (s.slice(0, n) + "\n" + bp(n, s.slice(n)));
@@ -79,15 +79,14 @@ Raphael.fn.radarchart = function (data, size, style, ids) {
         this.text(x, y, break_per(3, labels[i])).attr(lstyle);
     }//draw labels
 
-    //draw outer polygon frame
+    // draw outer polygon frame
     st.push(this.path(polygon(points)).attr(pstyle));
 
-    // Regularises scores
+    // scale scores
     for (i = 0; i < score.length; i += 1) { score[i] /= max; }
 
-    // Draws chart
-    var ipoly = this.path(path_string(cx, cy, points, score));
-    ipoly.attr(sstyle);
+    // draws inner poly chart
+    var ipoly = this.path(path_string(cx, cy, points, score)).attr(sstyle);
     st.push(ipoly);
 
     var mouseUp = function () { this.animate(cstyle, 150); };
@@ -95,7 +94,6 @@ Raphael.fn.radarchart = function (data, size, style, ids) {
     var mouseOver = function () { this.animate({r: 5}, 150); };
     var mouseDown = function () {
         score[this.axis] = this.score;
-        $('#' + this.related_id).val(this.score * max);
         ipoly.animate({path: path_string(cx, cy, points, score)}, 200);
     };
 
@@ -107,7 +105,6 @@ Raphael.fn.radarchart = function (data, size, style, ids) {
             var cl = this.circle(x, y, 3.5).attr(cstyle);
             cl.axis = i;
             cl.score = j / 5.0;
-            cl.related_id = ids ? ids[i] : null;
             cl.mouseup(mouseUp);
             cl.mouseout(mouseOut);
             cl.mouseover(mouseOver);
