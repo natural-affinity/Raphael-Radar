@@ -7,7 +7,6 @@
     <script src="js/raphael-radar.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body>
-    <h1>Raphael Radar Example(s)</h1>
     <p>Raphael Radarは、Raphael.jsを使って操作可能なレーダーチャートをSVGで描画するライブラリです。</p>
 
     <div style="float:left;padding-right:40px">
@@ -32,7 +31,7 @@
           height: 250
         },
         style: {
-          bg: {"gradient": "270-#fff-#fff:40-#ddd", "stroke-width": "0"},
+          bg: {"gradient": "270-#fff-#fff:270-#ddd", "stroke-width": "0"},
           polygon: {"stroke": "#555", "stroke-width": "3"},
           scores: [{"fill": "#f90", "fill-opacity": "0.8",
                    "stroke-width": "2", "stroke": "#a64"}],
@@ -50,16 +49,17 @@
       var radar2 = {
         data: {
           max: 50,
+          legend: ["Series 1", "Series 2"],
           scores: [[20, 20, 40, 40, 50],
                    [40, 30, 50, 20, 10]],
           labels: ["うんのよさ", "たいりょく", "ちから", "かしこさ", "すばやさ"]
         },
         size: {
           width: 250,
-          height: 250
+          height: 275
         },
         style: {
-          bg: {"gradient": "270-#fff-#fff:40-#ddd", "stroke-width": "0"},
+          bg: {"gradient": "270-#fff-#fff:270-#ddd", "stroke-width": "0"},
           polygon: {"stroke": "#555", "stroke-width": "3"},
           scores: [{'fill': '#0088ff','fill-opacity': '0.2',
                     'stroke-width': '2','stroke': '#0088ff',

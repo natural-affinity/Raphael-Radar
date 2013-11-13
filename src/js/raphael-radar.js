@@ -41,7 +41,7 @@ Raphael.fn.radarchart = function (data, size, style) {
     var mouseDown = function () {
         score[this.axis] = this.score;
         ipoly.animate({path: path_string(cx, cy, points, score)}, 200);
-    };
+    };//animates and registers score changes for single-series models
 
     var st = this.set();
     var w = size.width;
@@ -50,6 +50,7 @@ Raphael.fn.radarchart = function (data, size, style) {
     var cy = h / 2;
     var axis = null;
     var max = data.max;
+    var legend = data.legend;
     var labels = data.labels;
     var scores = data.scores;
     var pstyle = style.polygon;
@@ -94,12 +95,13 @@ Raphael.fn.radarchart = function (data, size, style) {
 
     for (var k = 0; k < slen; k += 1) {
         var score = scores[k];
+        var scstyle = sstyle[k];
 
         // scale scores
         for (i = 0; i < sides; i += 1) { score[i] /= max; }
 
         // draws inner poly chart
-        var ipoly = this.path(path_string(cx, cy, points, score)).attr(sstyle[k]);
+        var ipoly = this.path(path_string(cx, cy, points, score)).attr(scstyle);
         st.push(ipoly);
 
         if (slen > 1) {
@@ -108,6 +110,13 @@ Raphael.fn.radarchart = function (data, size, style) {
                 y = lined_on(cy, points[i][1], score[i]);
                 st.push(this.circle(x, y, 3.5).attr(cstyle));
             }
+
+            var x1 = cx - 30;
+            var y1 = bottom + 50 + 20 * k;
+            var x2 = cy + 10;
+            var y2 = y1;
+            st.push(this.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2).attr(scstyle));
+            this.text(x2 + 20, y2, legend[k]).attr(lstyle);
         } else {
             for (i = 0; i < plen; i += 1) {
                 for (var j = 1; j < 6; j += 1) {
