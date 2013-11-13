@@ -117,7 +117,7 @@ Raphael.fn.radarchart = function (data, size, style) {
             var y2 = y1;
             st.push(this.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2).attr(scstyle));
             this.text(x2 + 20, y2, legend[k]).attr(lstyle);
-        } else {
+        } else if (slen === 1) {
             for (i = 0; i < plen; i += 1) {
                 for (var j = 1; j < 6; j += 1) {
                     x = lined_on(cx, points[i][0], j * 0.2);
