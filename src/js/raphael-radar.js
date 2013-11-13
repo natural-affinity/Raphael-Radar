@@ -98,7 +98,7 @@ Raphael.fn.radarchart = function (data, size, style) {
         for (i = 0; i < sides; i += 1) { score[i] /= max; }
 
         // draws inner poly chart
-        var ipoly = this.path(path_string(cx, cy, points, score)).attr(sstyle);
+        var ipoly = this.path(path_string(cx, cy, points, score)).attr(sstyle[k]);
         st.push(ipoly);
 
         for (i = 0; i < plen; i += 1) {
