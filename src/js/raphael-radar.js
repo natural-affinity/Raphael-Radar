@@ -35,14 +35,23 @@ Raphael.fn.radarchart = function (data, size, style) {
         return (s.length <= n) ? s : (s.slice(0, n) + "\n" + bp(n, s.slice(n)));
     });//line break label text every 'n' characters
 
+    var mouseUp = function () { this.animate(cstyle, 150); };
+    var mouseOut = function () { this.animate({r: 3.5}, 150); };
+    var mouseOver = function () { this.animate({r: 5}, 150); };
+    var mouseDown = function () {
+        score[this.axis] = this.score;
+        ipoly.animate({path: path_string(cx, cy, points, score)}, 200);
+    };
+
     var st = this.set();
     var w = size.width;
     var h = size.height;
     var cx = w / 2;
     var cy = h / 2;
+    var axis = null;
     var max = data.max;
     var labels = data.labels;
-    var score = data.scores;
+    var scores = data.scores;
     var pstyle = style.polygon;
     var lstyle = style.label;
     var cstyle = style.circle;
@@ -50,7 +59,7 @@ Raphael.fn.radarchart = function (data, size, style) {
     var astyle = style.axis;
     var radius = (w < h ? w : h) / Math.PI;
     var angle = 360;
-    var sides = score.length;
+    var sides = scores[0].length;
     var edgeLength = 2 * radius * Math.sin(Math.PI / sides);
     var x = cx + edgeLength / 2;
     var y = cy + radius * Math.cos(Math.PI / sides);
@@ -64,7 +73,7 @@ Raphael.fn.radarchart = function (data, size, style) {
     }
 
     var plen = points.length;
-    var axis = null;
+    var slen = scores.length;
 
     for (var i = 0; i < plen; i += 1) {
         x = points[i][0];
@@ -82,34 +91,33 @@ Raphael.fn.radarchart = function (data, size, style) {
     // draw outer polygon frame
     st.push(this.path(polygon(points)).attr(pstyle));
 
-    // scale scores
-    for (i = 0; i < score.length; i += 1) { score[i] /= max; }
+    for (var k = 0; k < slen; k += 1) {
+        var score = scores[k];
 
-    // draws inner poly chart
-    var ipoly = this.path(path_string(cx, cy, points, score)).attr(sstyle);
-    st.push(ipoly);
+        // scale scores
+        for (i = 0; i < sides; i += 1) { score[i] /= max; }
 
-    var mouseUp = function () { this.animate(cstyle, 150); };
-    var mouseOut = function () { this.animate({r: 3.5}, 150); };
-    var mouseOver = function () { this.animate({r: 5}, 150); };
-    var mouseDown = function () {
-        score[this.axis] = this.score;
-        ipoly.animate({path: path_string(cx, cy, points, score)}, 200);
-    };
+        // draws inner poly chart
+        var ipoly = this.path(path_string(cx, cy, points, score)).attr(sstyle);
+        st.push(ipoly);
 
-    for (i = 0; i < plen; i += 1) {
-        for (var j = 1; j < 6; j += 1) {
-            x = lined_on(cx, points[i][0], j * 0.2);
-            y = lined_on(cy, points[i][1], j * 0.2);
+        for (i = 0; i < plen; i += 1) {
+            for (var j = 1; j < 6; j += 1) {
+                x = lined_on(cx, points[i][0], j * 0.2);
+                y = lined_on(cy, points[i][1], j * 0.2);
 
-            var cl = this.circle(x, y, 3.5).attr(cstyle);
-            cl.axis = i;
-            cl.score = j / 5.0;
-            cl.mouseup(mouseUp);
-            cl.mouseout(mouseOut);
-            cl.mouseover(mouseOver);
-            cl.mousedown(mouseDown);
-            st.push(cl);
+                var cl = this.circle(x, y, 3.5).attr(cstyle);
+                cl.axis = i;
+                cl.score = j / 5.0;
+
+                if (slen == 1) {
+                    cl.mouseup(mouseUp);
+                    cl.mouseout(mouseOut);
+                    cl.mouseover(mouseOver);
+                    cl.mousedown(mouseDown);
+                }
+                st.push(cl);
+            }
         }
     }
 
