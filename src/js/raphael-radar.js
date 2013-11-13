@@ -74,6 +74,7 @@ Raphael.fn.radarchart = function (data, size, style) {
 
     var plen = points.length;
     var slen = scores.length;
+    var bottom = points[plen - 1][1];
 
     for (var i = 0; i < plen; i += 1) {
         x = points[i][0];
@@ -101,22 +102,27 @@ Raphael.fn.radarchart = function (data, size, style) {
         var ipoly = this.path(path_string(cx, cy, points, score)).attr(sstyle[k]);
         st.push(ipoly);
 
-        for (i = 0; i < plen; i += 1) {
-            for (var j = 1; j < 6; j += 1) {
-                x = lined_on(cx, points[i][0], j * 0.2);
-                y = lined_on(cy, points[i][1], j * 0.2);
+        if (slen > 1) {
+            for (i = 0; i < plen; i += 1) {
+                x = lined_on(cx, points[i][0], score[i]);
+                y = lined_on(cy, points[i][1], score[i]);
+                st.push(this.circle(x, y, 3.5).attr(cstyle));
+            }
+        } else {
+            for (i = 0; i < plen; i += 1) {
+                for (var j = 1; j < 6; j += 1) {
+                    x = lined_on(cx, points[i][0], j * 0.2);
+                    y = lined_on(cy, points[i][1], j * 0.2);
 
-                var cl = this.circle(x, y, 3.5).attr(cstyle);
-                cl.axis = i;
-                cl.score = j / 5.0;
-
-                if (slen == 1) {
+                    var cl = this.circle(x, y, 3.5).attr(cstyle);
+                    cl.axis = i;
+                    cl.score = j / 5.0;
                     cl.mouseup(mouseUp);
                     cl.mouseout(mouseOut);
                     cl.mouseover(mouseOver);
                     cl.mousedown(mouseDown);
+                    st.push(cl);
                 }
-                st.push(cl);
             }
         }
     }
