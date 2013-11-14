@@ -60,5 +60,5 @@ Additional refactoring coming soon!
 
 Special Thanks
 --------------
-Kurazeko Kyohe ([@tnzk](http://twitter.com/tnzk)) for the original library.
+Kurazeko Kyohe ([@tnzk](http://twitter.com/tnzk)) for the original library.  
 Tatsuya Ono ([@ono](http://twitter.com/ono)) for the multi-score feature concept.
