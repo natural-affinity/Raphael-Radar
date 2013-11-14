@@ -1,17 +1,25 @@
 Raphael-Radar
 =============
-This plugin is a radar or spider chart for the Raphael JS SVG graphics library.
+This plugin is a radar or spider chart for the Raphael.js SVG graphics library.
 
 Prerequisites
 -------------
 * JQuery 1.4.2+
-* Raphael JS 1.3.1+
-* Node JS 0.10.x (optional)
+* Raphael.js 1.3.1+
+* Nodejs 0.10.x (optional)
+
+Features
+--------
+* Single Series: editable
+* Multi-Series: read-only
+* Multi-Series Legend
+* Customizable Styles
+* Automated Refactor Workflow
 
 Usage and documentation
 -----------------------
 Raphael Radar is a browser-based SVG plugin; please see the index.html file
-provided for sample usage.
+provided for detailed sample usage.
 
 
 ### Setup
@@ -46,11 +54,11 @@ a [webserver](http://localhost:9292) for local development.  Any file changes
 will re-trigger the build and deploy process. A refresh of the browser window 
 may be required to view the new changes.
 
-
 ### Coming Soon
 
 Additional refactoring coming soon!
 
 Special Thanks
 --------------
-KURAZEKO Kyohe ([@tnzk](http://twitter.com/tnzk)) for the original library.
+Kurazeko Kyohe ([@tnzk](http://twitter.com/tnzk)) for the original library.
+Tatsuya Ono ([@ono](http://twitter.com/ono)) for the multi-score feature concept.
