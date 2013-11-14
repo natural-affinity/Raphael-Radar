@@ -19,7 +19,7 @@ Features
 Usage and documentation
 -----------------------
 Raphael Radar is a browser-based SVG plugin; please see the index.html file
-provided for detailed sample usage.
+provided for sample usage.
 
 
 ### Setup
