@@ -54,6 +54,60 @@ a [webserver](http://localhost:9292) for local development.  Any file changes
 will re-trigger the build and deploy process. A refresh of the browser window 
 may be required to view the new changes.
 
+
+### Usage
+
+Include all dependent JS libraries:
+```html
+<head>
+  <script src="assets/js/jquery-1.10.2.min.js"></script>
+  <script src="assets/js/raphael-2.1.2.min.js"></script>
+  <script src="assets/js/raphael-radar-0.0.2.min.js"></script>
+</head>
+```
+
+Create an HTML hook for your radar chart widget:
+```html
+<div id="myChart"></div>
+```
+
+Create a JSON object describing your chart:
+```javascript
+var radar = {
+  data: {
+    max: 50,
+    scores: [[30, 30, 30, 30, 30]],
+    labels: ["STR", "VIT", "LCK", "INT", "DEX"]
+  },
+  size: {
+    width: 250,
+    height: 275
+  },
+  style: {
+    bg: {"gradient": "270-#fff-#fff:270-#ddd", "stroke-width": "0"},
+    polygon: {"stroke": "#555", "stroke-width": "3"},
+    scores: [{"fill": "#f90", "fill-opacity": "0.8",
+              "stroke-width": "2", "stroke": "#a64"}],
+    circle: {'fill': '#888','stroke-width': '0'},
+    axis: ["stroke", "#777"],
+    label: {'fill': "#555"}
+  },
+  chart: null
+};
+```
+
+Initialize the Raphael object, background, and chart with your specs:
+```javascript
+radar.chart = Raphael("myChart", radar.size.width, radar.size.height);
+radar.chart.rect(0, 0, radar.size.width, radar.size.height, 0).attr(radar.style.bg);
+radar.chart.radarchart(radar.data, radar.size, radar.style);
+```
+
+Wire the radar chart destructor to ensure event cleanup (optional):
+```html
+<body onunload="radar.chart.destruct()"></body>
+```
+
 ### Coming Soon
 
 Additional refactoring coming soon!
