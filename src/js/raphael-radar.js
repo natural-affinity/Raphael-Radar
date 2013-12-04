@@ -43,6 +43,17 @@ Raphael.fn.radarchart = function (data, size, style) {
         ipoly.animate({path: path_string(cx, cy, points, score)}, 200);
     };//animates and registers score changes for single-series models
 
+    this.destruct = function() {
+        for(var i = 0, len = st.length; i < len; i += 1) {
+            if(st[i][0].localName === "circle") {
+                st[i].unmouseout(mouseOut);
+                st[i].unmouseup(mouseUp);
+                st[i].unmousedown(mouseDown);
+                st[i].unmouseover(mouseOver);
+            }//unbind all previously attached events
+        }
+    };
+
     var st = this.set();
     var w = size.width;
     var h = size.height;

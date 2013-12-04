@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8"/>
     <title>Raphael Radar Plugin Example</title>
     <script src="js/lib/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/lib/raphael-2.1.2.min.js" type="text/javascript" charset="utf-8"></script>
@@ -12,6 +13,7 @@
     <div style="float:left;padding-right:40px">
       <h5>Example 1: Editable single series chart</h5>
       <div id="chart"></div>
+      <input type="button" value="Call Destructor" onclick="destruct()" style="position:relative;left:30%"/>
     </div>
 
     <div style="float:left">
@@ -76,6 +78,13 @@
       radar2.chart = Raphael("chart2", radar2.size.width, radar2.size.height);
       radar2.chart.rect(0, 0, radar2.size.width, radar2.size.height, 0).attr(radar2.style.bg);
       radar2.chart.radarchart(radar2.data, radar2.size, radar2.style);
+
+      var destruct = function() {
+        "use strict";
+
+        radar.chart.destruct();
+        alert("all events unbound");
+      };
     </script>
   </body>
 </html>
