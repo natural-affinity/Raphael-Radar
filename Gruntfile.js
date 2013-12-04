@@ -69,7 +69,7 @@ module.exports = function(grunt) {
       options: {
         livereload: true
       },
-      files: ['src/**/*'],
+      files: ['src/**/*', 'package.json'],
       tasks: ['default']
     }
   });
