@@ -1,4 +1,4 @@
-Copyright (c) 2012 Rizwan Tejpar
+Copyright (c) 2013 Kurazeko Kyohe and contributors (Rizwan Tejpar)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
