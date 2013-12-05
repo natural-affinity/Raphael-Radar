@@ -1,6 +1,6 @@
 {
   "name": "raphael-radar",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/natural-affinity/Raphael-Radar",
   "description": "Radar Chart for Raphael JS",
   "author": {
@@ -46,5 +46,5 @@
   "engines": {
     "node": ">=0.10.x"
   },
-  "license": ""
+  "license": "MIT"
 }

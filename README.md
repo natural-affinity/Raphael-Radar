@@ -108,11 +108,17 @@ Wire the radar chart destructor to ensure event cleanup (optional):
 <body onunload="radar.chart.destruct()"></body>
 ```
 
-### Coming Soon
-
-Additional refactoring coming soon!
-
 Special Thanks
 --------------
 Kurazeko Kyohe ([@tnzk](http://twitter.com/tnzk)) for the original library.  
 Tatsuya Ono ([@ono](http://twitter.com/ono)) for the multi-score feature concept.
+
+
+License
+-------
+Released under the MIT License.   
+
+**Disclaimer:** Should this license conflict with the original author's wishes, and
+any of the original source code remain, this license will be retroactively revoked
+and changed to an alternative open-source license.  It is the responsibility
+of the user to update his or her copyright information accordingly.
