@@ -57,12 +57,12 @@ may be required to view the new changes.
 
 ### Usage
 
-Include all dependent JS libraries:
+Include all dependent JS libraries (versions may vary):
 ```html
 <head>
   <script src="assets/js/jquery-1.10.2.min.js"></script>
   <script src="assets/js/raphael-2.1.2.min.js"></script>
-  <script src="assets/js/raphael-radar-0.0.2.min.js"></script>
+  <script src="assets/js/raphael-radar-0.0.4.min.js"></script>
 </head>
 ```
 
