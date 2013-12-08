@@ -45,7 +45,7 @@ Raphael.fn.radarchart = function (data, size, style) {
 
     this.destruct = function() {
         for(var i = 0, len = st.length; i < len; i += 1) {
-            if(st[i][0].localName === "circle") {
+            if(st[i][0].localName === "circle" && st[i].events !== undefined) {
                 st[i].unmouseout(mouseOut);
                 st[i].unmouseup(mouseUp);
                 st[i].unmousedown(mouseDown);
@@ -115,19 +115,21 @@ Raphael.fn.radarchart = function (data, size, style) {
         var ipoly = this.path(path_string(cx, cy, points, score)).attr(scstyle);
         st.push(ipoly);
 
-        if (slen > 1) {
-            for (i = 0; i < plen; i += 1) {
-                x = lined_on(cx, points[i][0], score[i]);
-                y = lined_on(cy, points[i][1], score[i]);
-                st.push(this.circle(x, y, 3.5).attr(cstyle));
-            }
-
+        if(slen > 1) {
             var x1 = cx - 30;
             var y1 = bottom + 50 + 20 * k;
             var x2 = cy + 10;
             var y2 = y1;
             st.push(this.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2).attr(scstyle));
             this.text(x2 + 20, y2, legend[k]).attr(lstyle);
+        }//draw legend
+
+        if (slen > 1 || data.readonly === true) {
+            for (i = 0; i < plen; i += 1) {
+                x = lined_on(cx, points[i][0], score[i]);
+                y = lined_on(cy, points[i][1], score[i]);
+                st.push(this.circle(x, y, 3.5).attr(cstyle));
+            }
         } else if (slen === 1) {
             for (i = 0; i < plen; i += 1) {
                 for (var j = 1; j < 6; j += 1) {
@@ -144,7 +146,7 @@ Raphael.fn.radarchart = function (data, size, style) {
                     st.push(cl);
                 }
             }
-        }
+        }//draw point values
     }
 
     return st;
