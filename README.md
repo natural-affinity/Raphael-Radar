@@ -18,7 +18,7 @@ Features
 
 Screenshots
 -----------
-![example](https://github.com/natural-affinity/Raphael-Radar/tree/master/src/images/example.png)
+![example](https://raw.githubusercontent.com/natural-affinity/Raphael-Radar/develop/src/images/example.png)
 
 Usage and documentation
 -----------------------
