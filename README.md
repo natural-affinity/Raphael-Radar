@@ -16,6 +16,10 @@ Features
 * Customizable Styles
 * Automated Refactor Workflow
 
+Screenshots
+-----------
+![example](https://github.com/natural-affinity/Raphael-Radar/tree/master/src/images/example.png)
+
 Usage and documentation
 -----------------------
 Raphael Radar is a browser-based SVG plugin; please see the index.html file
