@@ -1,16 +1,24 @@
+'use strict';
 module.exports = function(grunt) {
-  "use strict";
+  require('time-grunt')(grunt);
+  require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: {
       options: {
-        "no-write": false
+        'no-write': false
       },
       release: ['public']
     },
     jshint: {
-      uses_defaults: ['Gruntfile.js']
+      options: {
+        jshintrc: '.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      all: [
+        'Gruntfile.js'
+      ]
     },
     uglify: {
       options: {
@@ -39,7 +47,7 @@ module.exports = function(grunt) {
         filter: 'isFile'
       }
     },
-    "regex-replace": {
+    'regex-replace': {
       html: {
         src: ['public/index.html'],
         actions: [{
@@ -73,16 +81,6 @@ module.exports = function(grunt) {
       tasks: ['default']
     }
   });
-
-  //load lib tasks
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-regex-replace');
 
   //register tasks and default task
   grunt.registerTask('default', ['clean', 'jshint', 'uglify', 'copy', 'regex-replace']);
