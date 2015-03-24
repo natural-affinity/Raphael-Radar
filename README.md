@@ -4,7 +4,7 @@ Radar chart for the Raphael.js SVG graphics library.
 
 Prerequisites
 -------------
-* Nodejs 0.10.x
+* Nodejs (v0.10.x)
 
 Features
 --------
