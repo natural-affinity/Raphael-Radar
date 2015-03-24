@@ -1,0 +1,22 @@
+{
+  "name": "raphael-radar",
+  "version": "0.0.5",
+  "description": "Radar Chart for Raphael JS",
+  "author": {
+    "name": "Kurazeko Kyohe",
+    "email": "tnzk.marge@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Rizwan Tejpar",
+      "email": "rtejpar@rtcodespark.com"
+    }
+  ],
+  "private": true,
+  "repository": "git+https://github.com/natural-affinity/Raphael-Radar.git",
+  "dependencies": {
+    "jquery": "^1.11.2",
+    "raphael": "^2.1.4"
+  },
+  "devDependencies": {}
+}

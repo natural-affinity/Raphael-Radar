@@ -1,51 +1,52 @@
+/* globals Raphael */
 Raphael.fn.radarchart = function (data, size, style) {
-    "use strict";
+    'use strict';
 
     function polygon(points) {
-        var path = "M100 100";
+        var path = 'M100 100';
 
         for (var i = 0, len = points.length; i < len; i += 1) {
-            path += ((i === 0) ? "M" : "L") + points[i][0] + " " + points[i][1];
+            path += ((i === 0) ? 'M' : 'L') + points[i][0] + ' ' + points[i][1];
 
             if (i === len - 1) {
-                path += "L" + points[0][0] + " " + points[0][1];
+                path += 'L' + points[0][0] + ' ' + points[0][1];
             }
         }
 
         return path;
     }//get polygon container path
 
-    function lined_on(origin, base, bias) {
+    function linedOn(origin, base, bias) {
         return origin + (base - origin) * bias;
     }//get position along radar line
 
-    function path_string(cx, cy, points, score) {
+    function pathString(cx, cy, points, score) {
         var x, y, vertex = [];
 
         for (var i = 0, len = points.length; i < len; i += 1) {
-            x = lined_on(cx, points[i][0], score[i]);
-            y = lined_on(cy, points[i][1], score[i]);
-            vertex.push(x + " " + y);
+            x = linedOn(cx, points[i][0], score[i]);
+            y = linedOn(cy, points[i][1], score[i]);
+            vertex.push(x + ' ' + y);
         }
 
-        return "M" + vertex.join("L") + "L" + vertex[0];
+        return 'M' + vertex.join('L') + 'L' + vertex[0];
     }//get svg path string for a series
 
-    var break_per = (function bp(n,s) {
-        return (s.length <= n) ? s : (s.slice(0, n) + "\n" + bp(n, s.slice(n)));
-    });//line break label text every 'n' characters
+    var breakPer = function bp(n,s) {
+        return (s.length <= n) ? s : (s.slice(0, n) + '\n' + bp(n, s.slice(n)));
+    };//line break label text every 'n' characters
 
     var mouseUp = function () { this.animate(cstyle, 150); };
     var mouseOut = function () { this.animate({r: 3.5}, 150); };
     var mouseOver = function () { this.animate({r: 5}, 150); };
     var mouseDown = function () {
         score[this.axis] = this.score;
-        ipoly.animate({path: path_string(cx, cy, points, score)}, 200);
+        ipoly.animate({path: pathString(cx, cy, points, score)}, 200);
     };//animates and registers score changes for single-series models
 
     this.destruct = function() {
         for(var i = 0, len = st.length; i < len; i += 1) {
-            if(st[i][0].localName === "circle" && st[i].events !== undefined) {
+            if(st[i][0].localName === 'circle' && st[i].events !== undefined) {
                 st[i].unmouseout(mouseOut);
                 st[i].unmouseup(mouseUp);
                 st[i].unmousedown(mouseDown);
@@ -91,14 +92,14 @@ Raphael.fn.radarchart = function (data, size, style) {
     for (var i = 0; i < plen; i += 1) {
         x = points[i][0];
         y = points[i][1];
-        axis = this.path("M" + cx + " " + cy + "L" + x + " " + y);
+        axis = this.path('M' + cx + ' ' + cy + 'L' + x + ' ' + y);
         st.push(axis.attr.apply(axis, astyle));
     }//draw inner axes
 
     for (i = 0; i < plen; i += 1) {
-        x = lined_on(cx, points[i][0], 1.3);
-        y = lined_on(cy, points[i][1], 1.3);
-        this.text(x, y, break_per(3, labels[i])).attr(lstyle);
+        x = linedOn(cx, points[i][0], 1.3);
+        y = linedOn(cy, points[i][1], 1.3);
+        this.text(x, y, breakPer(3, labels[i])).attr(lstyle);
     }//draw labels
 
     // draw outer polygon frame
@@ -112,7 +113,7 @@ Raphael.fn.radarchart = function (data, size, style) {
         for (i = 0; i < sides; i += 1) { score[i] /= max; }
 
         // draws inner poly chart
-        var ipoly = this.path(path_string(cx, cy, points, score)).attr(scstyle);
+        var ipoly = this.path(pathString(cx, cy, points, score)).attr(scstyle);
         st.push(ipoly);
 
         if(slen > 1) {
@@ -120,21 +121,21 @@ Raphael.fn.radarchart = function (data, size, style) {
             var y1 = bottom + 50 + 20 * k;
             var x2 = cy + 10;
             var y2 = y1;
-            st.push(this.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2).attr(scstyle));
+            st.push(this.path('M' + x1 + ' ' + y1 + 'L' + x2 + ' ' + y2).attr(scstyle));
             this.text(x2 + 20, y2, legend[k]).attr(lstyle);
         }//draw legend
 
         if (slen > 1 || data.readonly === true) {
             for (i = 0; i < plen; i += 1) {
-                x = lined_on(cx, points[i][0], score[i]);
-                y = lined_on(cy, points[i][1], score[i]);
+                x = linedOn(cx, points[i][0], score[i]);
+                y = linedOn(cy, points[i][1], score[i]);
                 st.push(this.circle(x, y, 3.5).attr(cstyle));
             }
         } else if (slen === 1) {
             for (i = 0; i < plen; i += 1) {
                 for (var j = 1; j < 6; j += 1) {
-                    x = lined_on(cx, points[i][0], j * 0.2);
-                    y = lined_on(cy, points[i][1], j * 0.2);
+                    x = linedOn(cx, points[i][0], j * 0.2);
+                    y = linedOn(cy, points[i][1], j * 0.2);
 
                     var cl = this.circle(x, y, 3.5).attr(cstyle);
                     cl.axis = i;

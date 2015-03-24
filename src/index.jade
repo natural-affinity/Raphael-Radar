@@ -1,32 +1,27 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8"/>
-    <title>Raphael Radar Plugin Example</title>
-    <script src="js/lib/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/lib/raphael-2.1.2.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/raphael-radar.js" type="text/javascript" charset="utf-8"></script>
-  </head>
-  <body>
-    <p>Raphael Radarは、Raphael.jsを使って操作可能なレーダーチャートをSVGで描画するライブラリです。</p>
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Raphael Radar Plugin Example
+    script(src="scripts/lib.min.js")
+    script(src="scripts/#{name}-#{version}.min.js")
+  body
+    p Raphael Radarは、Raphael.jsを使って操作可能なレーダーチャートをSVGで描画するライブラリです。
 
-    <div style="float:left;padding-right:10px">
-      <h5>Example 1: Editable single series chart</h5>
-      <div id="chart"></div>
-      <input type="button" value="Call Destructor" onclick="destruct()" style="position:relative;left:30%"/>
-    </div>
+    div(style="float:left;padding-right:10px")
+      h5 Example 1: Editable single series chart
+      #chart
+      input(type="button" value="Call Destructor" onclick="destruct()" style="position:relative;left:30%")
 
-    <div style="float:left;padding-right:10px">
-      <h5>Example 2: Read-only multi-series chart</h5>
-      <div id="chart2"></div>
-    </div>
+    div(style="float:left;padding-right:10px")
+      h5 Example 2: Read-only multi-series chart
+      #chart2
 
-    <div style="float:left">
-      <h5>Example 3: Read-only single series chart</h5>
-      <div id="chart3"></div>
-    </div>
+    div(style="float:left")
+      h5 Example 3: Read-only single series chart
+      #chart3
 
-    <script type="text/javascript">
+    script.
       var radar = {
         data: {
           max: 50,
@@ -42,14 +37,14 @@
           polygon: {"stroke": "#555", "stroke-width": "3"},
           scores: [{"fill": "#f90", "fill-opacity": "0.8",
                    "stroke-width": "2", "stroke": "#a64"}],
-          circle: {'fill': '#888','stroke-width': '0'},
+          circle: {"fill": "#888","stroke-width": "0"},
           axis: ["stroke", "#777"],
-          label: {'fill': "#555"}
+          label: {"fill": "#555"}
         },
         chart: null
       };
 
-      radar.chart = Raphael("chart", radar.size.width, radar.size.height);
+      radar.chart = Raphael('chart', radar.size.width, radar.size.height);
       radar.chart.rect(0, 0, radar.size.width, radar.size.height, 0).attr(radar.style.bg);
       radar.chart.radarchart(radar.data, radar.size, radar.style);
 
@@ -68,19 +63,19 @@
         style: {
           bg: {"gradient": "270-#fff-#fff:270-#ddd", "stroke-width": "0"},
           polygon: {"stroke": "#555", "stroke-width": "3"},
-          scores: [{'fill': '#0088ff','fill-opacity': '0.2',
-                    'stroke-width': '2','stroke': '#0088ff',
-                    'stroke-dasharray':'- '},
-                   {'fill': '#f90','fill-opacity': '0.4',
-                    'stroke-width': '2','stroke': '#a64'}],
-          circle: {'fill': "#555"},
+          scores: [{"fill": "#0088ff", "fill-opacity": "0.2",
+                    "stroke-width": "2", "stroke": "#0088ff",
+                    "stroke-dasharray": "- "},
+                   {"fill": "#f90", "fill-opacity": "0.4",
+                    "stroke-width": "2", "stroke": "#a64"}],
+          circle: {"fill": "#555"},
           axis: ["stroke", "#777"],
-          label: {'fill': "#555"}
+          label: {"fill": "#555"}
         },
         chart: null
       };
 
-      radar2.chart = Raphael("chart2", radar2.size.width, radar2.size.height);
+      radar2.chart = Raphael('chart2', radar2.size.width, radar2.size.height);
       radar2.chart.rect(0, 0, radar2.size.width, radar2.size.height, 0).attr(radar2.style.bg);
       radar2.chart.radarchart(radar2.data, radar2.size, radar2.style);
 
@@ -100,23 +95,20 @@
           polygon: {"stroke": "#555", "stroke-width": "3"},
           scores: [{"fill": "#f90", "fill-opacity": "0.8",
                    "stroke-width": "2", "stroke": "#a64"}],
-          circle: {'fill': "#555"},
+          circle: {"fill": "#555"},
           axis: ["stroke", "#777"],
-          label: {'fill': "#555"}
+          label: {"fill": "#555"}
         },
         chart: null
       };
 
-      radar3.chart = Raphael("chart3", radar3.size.width, radar3.size.height);
+      radar3.chart = Raphael('chart3', radar3.size.width, radar3.size.height);
       radar3.chart.rect(0, 0, radar3.size.width, radar3.size.height, 0).attr(radar3.style.bg);
       radar3.chart.radarchart(radar3.data, radar3.size, radar3.style);
 
       var destruct = function() {
-        "use strict";
+        'use strict';
 
         radar.chart.destruct();
-        alert("all events unbound");
+        alert('all events unbound');
       };
-    </script>
-  </body>
-</html>

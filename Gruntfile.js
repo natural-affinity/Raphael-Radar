@@ -3,13 +3,23 @@ module.exports = function(grunt) {
   require('time-grunt')(grunt);
   require('load-grunt-tasks')(grunt);
 
+  var gconf = {
+    src: {
+      root: 'src',
+      scripts: 'src/scripts'
+    },
+    dist: {
+      root: 'dist',
+      scripts: 'dist/scripts'
+    }
+  };
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    pretty: grunt.option('pretty') || true,
+    gconf: gconf,
     clean: {
-      options: {
-        'no-write': false
-      },
-      release: ['public']
+      dist: ['<%= gconf.dist.root %>']
     },
     jshint: {
       options: {
@@ -17,72 +27,87 @@ module.exports = function(grunt) {
         reporter: require('jshint-stylish')
       },
       all: [
-        'Gruntfile.js'
+        'Gruntfile.js',
+        '<%= gconf.src.scripts %>/**/*.js'
       ]
     },
     uglify: {
       options: {
-        banner: '/* All external plugins are licensed/copyright by their respective owners. ' +
-                   'All other artifacts are licensed under <%= pkg.license %> */'
+        compress: true,
+        expand: true,
+        dot: true,
+        mangle: {
+          except: ['jQuery', 'Raphael']
+        }
       },
-      target: {
+      libs: {
         files: {
-          'public/assets/js/<%= pkg.name %>-<%= pkg.version %>.min.js': ['src/**/<%= pkg.name %>.js']
+          '<%= gconf.dist.scripts %>/lib.min.js': [
+            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/raphael/raphael-min.js'
+          ]
+        }
+      },
+      dist: {
+        files: {
+          '<%= gconf.dist.scripts %>/<%= pkg.name %>-<%= pkg.version %>.min.js': [
+            '<%= gconf.src.scripts %>/<%= pkg.name %>.js'
+          ]
         }
       }
     },
-    copy: {
-      html: {
-        expand: true,
-        cwd: 'src/',
-        src: 'index.html',
-        dest: 'public/',
-        filter: 'isFile'
+    jade: {
+      options: {
+        pretty: '<%= pretty %>',
+        data: {
+          name: grunt.option('name') || '<%= pkg.name %>',
+          version: grunt.option('version') || '<%= pkg.version %>'
+        }
       },
-      lib: {
-        expand: true,
-        cwd: 'src/js/lib/',
-        src: '*',
-        dest: 'public/assets/js/',
-        filter: 'isFile'
+      compile: {
+        files: {
+          '<%= gconf.dist.root %>/index.html': '<%= gconf.src.root %>/index.jade'
+        }
       }
-    },
-    'regex-replace': {
-      html: {
-        src: ['public/index.html'],
-        actions: [{
-            name: 'replace-version',
-            search: '<%= pkg.name %>.js',
-            replace: '<%= pkg.name %>-<%= pkg.version %>.min.js',
-            flags: ''
-          },
-          {
-            name: 'replace-lib-path',
-            search: 'js/lib/|js/',
-            replace: 'assets/js/',
-            flags: 'g'
-        }]
-      },
     },
     connect: {
-      server: {
-        options: {
-          open: true,
-          port: 9292,
-          base: 'public'
+      options: {
+        port: 9000,
+        livereload: 35729,
+        hostname: 'localhost',
+        open: 'http://<%= connect.options.hostname %>:<%= connect.options.port %>',
+        middleware: function(connect) {
+          return [
+            connect.static(gconf.dist.root)
+          ];
         }
-      }
+      },
+      dev: {}
     },
     watch: {
-      options: {
-        livereload: true
+      gruntfile: {
+        files: ['Gruntfile.js'],
+        tasks: ['js']
       },
-      files: ['src/**/*', 'package.json'],
-      tasks: ['default']
+      jade: {
+        files: ['<%= gconf.src.root %>/*.jade'],
+        tasks: ['jade'],
+        options: {
+          livereload: true
+        }
+      },
+      js: {
+        files: ['<%= gconf.src.scripts %>/**/*.js'],
+        tasks: ['js'],
+        options: {
+          livereload: true
+        }
+      }
     }
   });
 
-  //register tasks and default task
-  grunt.registerTask('default', ['clean', 'jshint', 'uglify', 'copy', 'regex-replace']);
-  grunt.registerTask('tdd', ['default', 'connect', 'watch']);
+  grunt.registerTask('js', ['jshint', 'uglify']);
+  grunt.registerTask('build', ['clean', 'js', 'jade']);
+  grunt.registerTask('serve', ['build','connect','watch']);
+  grunt.registerTask('default', ['build']);
 };
