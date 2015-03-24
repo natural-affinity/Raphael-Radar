@@ -48,7 +48,7 @@ Include all dependent JS libraries (versions may vary):
 <head>
   <script src="assets/js/jquery-1.10.2.min.js"></script>
   <script src="assets/js/raphael-2.1.2.min.js"></script>
-  <script src="assets/js/raphael-radar-0.0.5.min.js"></script>
+  <script src="assets/js/raphael-radar-0.0.6.min.js"></script>
 </head>
 ```
 
