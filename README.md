@@ -1,12 +1,10 @@
 Raphael-Radar
 =============
-This plugin is a radar or spider chart for the Raphael.js SVG graphics library.
+Radar chart for the Raphael.js SVG graphics library.
 
 Prerequisites
 -------------
-* JQuery 1.4.2+
-* Raphael.js 1.3.1+
-* Nodejs 0.10.x (optional)
+* Nodejs 0.10.x
 
 Features
 --------
@@ -14,7 +12,6 @@ Features
 * Multi-Series: read-only
 * Multi-Series Legend
 * Customizable Styles
-* Automated Refactor Workflow
 
 Screenshots
 -----------
@@ -22,42 +19,27 @@ Screenshots
 
 Usage and documentation
 -----------------------
-Raphael Radar is a browser-based SVG plugin; please see the index.html file
-provided for sample usage.
+Please ensure all runtime dependencies have been installed prior to usage.
 
 
 ### Setup
 
-Install the Grunt JS CLI to help automate your build-deploy-test workflow:
+Switch to the project root directory and run the `setup.sh` script (`setup.bat` for Windows):
 ```bash
-$ npm install -g grunt-cli
+$ cd raphael-radar
+$ ./bin/setup.sh
 ```
 
-Install all remaining Node JS dependencies via 'npm': 
+### Workflow
+The `grunt serve` (watch, livereload) loop is designed to accelerate development workflow:
 ```bash
-$ npm install
+$ grunt serve
 ```
 
-To build and deploy the plugin simply invoke 'grunt':
+Alternatively, to simply run build the plugin, invoke:
 ```bash
-$ grunt
+$ grunt build
 ```
-
-Your production-ready artifacts will be created in the 'public' directory:
-```bash
-$ cd public
-```
-
-To build, deploy, and launch a webserver with livereload for testing:
-```bash
-$ grunt tdd
-```
-
-The above will serve deployed files from the 'public' directory and will launch 
-a [webserver](http://localhost:9292) for local development.  Any file changes 
-will re-trigger the build and deploy process. A refresh of the browser window 
-may be required to view the new changes.
-
 
 ### Usage
 
@@ -120,7 +102,7 @@ Tatsuya Ono ([@ono](http://twitter.com/ono)) for the multi-score feature concept
 
 License
 -------
-Released under the MIT License.   
+Released under the MIT License.
 
 **Disclaimer:** Should this license conflict with the original author's wishes, and
 any of the original source code remain, this license will be retroactively revoked
