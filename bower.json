@@ -12,7 +12,6 @@
       "email": "rtejpar@rtcodespark.com"
     }
   ],
-  "private": true,
   "repository": "git+https://github.com/natural-affinity/Raphael-Radar.git",
   "dependencies": {
     "jquery": "^1.11.2",
